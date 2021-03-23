@@ -117,6 +117,8 @@ namespace vMenuClient
                         {
                             TriggerServerEvent("vMenu:SendMessageToPlayer", currentPlayer.ServerId, message);
                             PrivateMessage(currentPlayer.ServerId.ToString(), message, true);
+                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} PM'd {GetSafePlayerName(currentPlayer.Name)}: {message}");
+
                         }
                     }
                     else
@@ -172,6 +174,8 @@ namespace vMenuClient
                                 SetBlipRoute(oldBlip, false);
                                 RemoveBlip(ref oldBlip);
                                 Notify.Custom($"~g~GPS route to ~s~<C>{GetSafePlayerName(currentPlayer.Name)}</C>~g~ is now disabled.");
+                                TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Disabled GPS to {GetSafePlayerName(currentPlayer.Name)}");
+
                             }
                         }
                         PlayersWaypointList.Clear();
@@ -198,6 +202,8 @@ namespace vMenuClient
                             }
                             PlayersWaypointList.Add(currentPlayer.Handle);
                             Notify.Custom($"~g~GPS route to ~s~<C>{GetSafePlayerName(currentPlayer.Name)}</C>~g~ is now active, press the ~s~Toggle GPS Route~g~ button again to disable the route.");
+                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Toggled GPS to {GetSafePlayerName(currentPlayer.Name)}");
+
                         }
                         else
                         {

@@ -460,6 +460,8 @@ namespace vMenuClient
                             {
                                 TaskWarpPedIntoVehicle(Game.PlayerPed.Handle, vehicle.Handle, (int)VehicleSeat.Any);
                                 Notify.Success("Teleported into ~g~<C>" + GetPlayerName(playerId) + "</C>'s ~s~vehicle.");
+                                TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} teleported into {GetPlayerName(playerId)}'s vehicle ");
+
                             }
                             // If there are not enough empty vehicle seats or the vehicle doesn't exist/is dead then notify the user.
                             else
@@ -483,6 +485,8 @@ namespace vMenuClient
                 else
                 {
                     Notify.Success("Teleported to ~y~<C>" + GetPlayerName(playerId) + "</C>~s~.");
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} teleported to {GetPlayerName(playerId)} ");
+
                 }
             }
             // The specified playerId does not exist, notify the user of the error.
@@ -711,6 +715,8 @@ namespace vMenuClient
             {
                 var pos = World.WaypointPosition;
                 await TeleportToCoords(pos);
+                TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} teleported to a waypoint");
+
             }
             else
             {
@@ -964,6 +970,8 @@ namespace vMenuClient
                         NetworkSetInSpectatorMode(false, 0); // disable spectating.
                         DoScreenFadeIn(500);
                         Notify.Success("Stopped spectating.", false, true);
+                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} stopped spectating {player.Handle}");
+
                         currentlySpectatingPlayer = -1;
                     }
                     else
@@ -989,6 +997,8 @@ namespace vMenuClient
                             DoScreenFadeIn(500);
                             Notify.Success($"You are now spectating ~g~<C>{GetSafePlayerName(player.Name)}</C>~s~.", false, true);
                             currentlySpectatingPlayer = player.Handle;
+                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} is spectating {player.Handle}");
+
                         }
                         else
                         {
@@ -1121,6 +1131,8 @@ namespace vMenuClient
                     uint model = (uint)GetHashKey(result);
                     SpawnVehicle(vehicleHash: model, spawnInside: spawnInside, replacePrevious: replacePrevious, skipLoad: false, vehicleInfo: new VehicleInfo(),
                         saveName: null);
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned {result.ToUpper()} ");
+
                 }
                 // Result was invalid.
                 else

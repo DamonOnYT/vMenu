@@ -11,6 +11,7 @@ using static CitizenFX.Core.Native.API;
 using static vMenuClient.CommonFunctions;
 using static vMenuShared.PermissionsManager;
 
+
 namespace vMenuClient
 {
     public class VehicleSpawner
@@ -100,7 +101,7 @@ namespace vMenuClient
                                 else
                                 {
                                     carBtn.Enabled = false;
-                                    carBtn.Description = "This vehicle is not available. Please ask the server owner to check if the vehicle is being streamed correctly.";
+                                    carBtn.Description = "This vehicle is not available";
                                     carBtn.LeftIcon = MenuItem.Icon.LOCK;
                                     unavailableCars.AddMenuItem(carBtn);
                                 }
@@ -115,6 +116,8 @@ namespace vMenuClient
                                 categoryMenu.OnItemSelect += (sender, item, index) =>
                                 {
                                     SpawnVehicle(item.ItemData.ToString(), SpawnInVehicle, ReplaceVehicle);
+                                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned {item.ItemData.ToString()}");
+
                                 };
                             }
                             else
@@ -397,6 +400,8 @@ namespace vMenuClient
                 vehicleClassMenu.OnItemSelect += (sender2, item2, index2) =>
                 {
                     SpawnVehicle(VehicleData.Vehicles.VehicleClasses[className][index2], SpawnInVehicle, ReplaceVehicle);
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned {VehicleData.Vehicles.VehicleClasses[className][index2]}");
+
                 };
 
                 void HandleStatsPanel(Menu openedMenu, MenuItem currentItem)

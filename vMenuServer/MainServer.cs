@@ -53,6 +53,9 @@ namespace vMenuServer
         }
     }
 
+
+
+
     public class MainServer : BaseScript
     {
         #region vars
@@ -167,6 +170,27 @@ namespace vMenuServer
             "XMAS",
             "HALLOWEEN"
         };
+        #endregion
+
+
+        #region Damon Log
+
+        /// <summary>
+        /// Damons Logging.
+        /// </summary>
+        /// <param name="data"></param>
+        [EventHandler("vMenu:DamonLog")]
+        private void DamonLog(dynamic data)
+        {
+            string prefix = "[vMenu] ";
+
+                Console.WriteLine($"{prefix} {data.ToString()}");
+
+            
+
+
+        }
+
         #endregion
 
         #region Constructor
