@@ -331,6 +331,8 @@ namespace vMenuClient
                 if (item == playerGodModeCheckbox)
                 {
                     PlayerGodMode = _checked;
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} toggled godmode {PlayerGodMode}");
+
                 }
                 // Invisibility toggled.
                 else if (item == invisibleCheckbox)
@@ -426,6 +428,8 @@ namespace vMenuClient
                 else if (listItem == setArmorItem)
                 {
                     Game.PlayerPed.Armor = (listItem.ListIndex) * 20;
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} set armour to {Game.PlayerPed.Armor}");
+
                 }
             };
 
@@ -443,6 +447,8 @@ namespace vMenuClient
                 {
                     Game.PlayerPed.Health = Game.PlayerPed.MaxHealth;
                     Notify.Success("Player healed.");
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} healed themself");
+
                 }
                 else if (item == cleanPlayerBtn)
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -182,12 +183,10 @@ namespace vMenuServer
         [EventHandler("vMenu:DamonLog")]
         private void DamonLog(dynamic data)
         {
-            string prefix = "[vMenu] ";
+            string prefix = "[vMenu]";
+            DateTime localDate = DateTime.Now;
 
-                Console.WriteLine($"{prefix} {data.ToString()}");
-
-            
-
+            Console.WriteLine($"[{localDate.ToString()}] {prefix} {data.ToString()}");
 
         }
 

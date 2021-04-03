@@ -476,6 +476,8 @@ namespace vMenuClient
                         if (item == fixVehicle)
                         {
                             vehicle.Repair();
+                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} repaired their vehicle");
+
                         }
                         // Clean vehicle.
                         else if (item == cleanVehicle)
@@ -554,6 +556,8 @@ namespace vMenuClient
                 if (item == vehicleGod) // God Mode Toggled
                 {
                     VehicleGodMode = _checked;
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(VehicleGodMode ? "enabled" : "disabled")} Vehicle God Mode");
+
                 }
                 //else if (item == vehicleSpecialGod) // special god mode
                 //{
@@ -573,10 +577,14 @@ namespace vMenuClient
                 else if (item == torqueEnabled) // Enable Torque Multiplier Toggled
                 {
                     VehicleTorqueMultiplier = _checked;
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(VehicleTorqueMultiplier ? "enabled" : "disabled")} Vehicle Torque Modifier");
+
                 }
                 else if (item == powerEnabled) // Enable Power Multiplier Toggled
                 {
                     VehiclePowerMultiplier = _checked;
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(VehiclePowerMultiplier ? "enabled" : "disabled")} Vehicle Power Modifier");
+
                     if (_checked)
                     {
                         if (vehicle != null && vehicle.Exists())
@@ -636,6 +644,8 @@ namespace vMenuClient
                 else if (item == infiniteFuel)
                 {
                     VehicleInfiniteFuel = _checked;
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(VehicleInfiniteFuel ? "enabled" : "disabled")} Vehicle Infinite Fuel");
+
                 }
             };
             #endregion

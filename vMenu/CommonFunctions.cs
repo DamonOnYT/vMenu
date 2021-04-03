@@ -970,7 +970,7 @@ namespace vMenuClient
                         NetworkSetInSpectatorMode(false, 0); // disable spectating.
                         DoScreenFadeIn(500);
                         Notify.Success("Stopped spectating.", false, true);
-                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} stopped spectating {player.Handle}");
+                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} stopped spectating {GetSafePlayerName(player.Name)}");
 
                         currentlySpectatingPlayer = -1;
                     }
@@ -1007,6 +1007,7 @@ namespace vMenuClient
                             NetworkSetInSpectatorMode(false, 0); // disable spectating.
                             DoScreenFadeIn(500);
                             Notify.Success("Stopped spectating.", false, true);
+                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} stopped spectating {GetSafePlayerName(player.Name)}");
                             currentlySpectatingPlayer = -1;
                         }
                     }
@@ -1025,6 +1026,7 @@ namespace vMenuClient
 
                             DoScreenFadeIn(500);
                             Notify.Success($"You are now spectating ~g~<C>{GetSafePlayerName(player.Name)}</C>~s~.", false, true);
+                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} is spectating {GetSafePlayerName(player.Name)}");
                             currentlySpectatingPlayer = player.Handle;
                         }
                     }
@@ -1729,6 +1731,8 @@ namespace vMenuClient
                     {
                         // Set the license plate.
                         SetVehicleNumberPlateText(veh.Handle, text);
+                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} set their license plate to {text.ToUpper()}");
+
                     }
                     // No valid text was given.
                     else

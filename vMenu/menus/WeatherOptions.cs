@@ -62,8 +62,6 @@ namespace vMenuClient
             MenuItem snowlight = new MenuItem("Light Snow", "Set the weather to ~y~light snow~s~!");
             MenuItem xmas = new MenuItem("X-MAS Snow", "Set the weather to ~y~x-mas~s~!");
             MenuItem halloween = new MenuItem("Halloween", "Set the weather to ~y~halloween~s~!");
-            MenuItem removeclouds = new MenuItem("Remove All Clouds", "Remove all clouds from the sky!");
-            MenuItem randomizeclouds = new MenuItem("Randomize Clouds", "Add random clouds to the sky!");
 
             var indexOffset = 2;
             if (IsAllowed(Permission.WODynamic))
@@ -110,15 +108,6 @@ namespace vMenuClient
                 menu.AddMenuItem(xmas);
                 menu.AddMenuItem(halloween);
             }
-            if (IsAllowed(Permission.WORandomizeClouds))
-            {
-                menu.AddMenuItem(removeclouds);
-            }
-
-            if (IsAllowed(Permission.WORemoveClouds))
-            {
-                menu.AddMenuItem(randomizeclouds);
-            }
 
             menu.OnItemSelect += (sender, item, index2) =>
             {
@@ -128,14 +117,8 @@ namespace vMenuClient
                 {
                     Notify.Custom($"The weather will be changed to ~y~{item.Text}~s~. This will take {EventManager.WeatherChangeTime} seconds.");
                     UpdateServerWeather(weatherTypes[index - 2], EventManager.IsBlackoutEnabled, EventManager.DynamicWeatherEnabled);
-                }
-                if (item == removeclouds)
-                {
-                    ModifyClouds(true);
-                }
-                else if (item == randomizeclouds)
-                {
-                    ModifyClouds(false);
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} updated the weather to {item.Text}");
+
                 }
             };
 
@@ -145,11 +128,15 @@ namespace vMenuClient
                 {
                     Notify.Custom($"Dynamic weather changes are now {(_checked ? "~g~enabled" : "~r~disabled")}~s~.");
                     UpdateServerWeather(EventManager.GetServerWeather, EventManager.IsBlackoutEnabled, _checked);
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(_checked ? "enabled" : "disabled")} dynamic weather");
+
                 }
                 else if (item == blackout)
                 {
                     Notify.Custom($"Blackout mode is now {(_checked ? "~g~enabled" : "~r~disabled")}~s~.");
                     UpdateServerWeather(EventManager.GetServerWeather, _checked, EventManager.DynamicWeatherEnabled);
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(_checked ? "enabled" : "disabled")} blackout");
+
                 }
             };
         }

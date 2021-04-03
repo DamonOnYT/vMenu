@@ -41,6 +41,8 @@ namespace vMenuClient
         internal static void SetNoclipActive(bool active)
         {
             NoclipActive = active;
+            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(NoclipActive ? "enabled" : "disabled")} noclip");
+
         }
 
         internal static bool IsNoclipActive()
