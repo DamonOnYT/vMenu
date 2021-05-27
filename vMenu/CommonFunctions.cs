@@ -460,8 +460,6 @@ namespace vMenuClient
                             {
                                 TaskWarpPedIntoVehicle(Game.PlayerPed.Handle, vehicle.Handle, (int)VehicleSeat.Any);
                                 Notify.Success("Teleported into ~g~<C>" + GetPlayerName(playerId) + "</C>'s ~s~vehicle.");
-                                TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} teleported into {GetPlayerName(playerId)}'s vehicle ");
-
                             }
                             // If there are not enough empty vehicle seats or the vehicle doesn't exist/is dead then notify the user.
                             else
@@ -485,8 +483,6 @@ namespace vMenuClient
                 else
                 {
                     Notify.Success("Teleported to ~y~<C>" + GetPlayerName(playerId) + "</C>~s~.");
-                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} teleported to {GetPlayerName(playerId)} ");
-
                 }
             }
             // The specified playerId does not exist, notify the user of the error.
@@ -715,8 +711,6 @@ namespace vMenuClient
             {
                 var pos = World.WaypointPosition;
                 await TeleportToCoords(pos);
-                TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} teleported to a waypoint");
-
             }
             else
             {
@@ -970,8 +964,6 @@ namespace vMenuClient
                         NetworkSetInSpectatorMode(false, 0); // disable spectating.
                         DoScreenFadeIn(500);
                         Notify.Success("Stopped spectating.", false, true);
-                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} stopped spectating {GetSafePlayerName(player.Name)}");
-
                         currentlySpectatingPlayer = -1;
                     }
                     else
@@ -997,8 +989,6 @@ namespace vMenuClient
                             DoScreenFadeIn(500);
                             Notify.Success($"You are now spectating ~g~<C>{GetSafePlayerName(player.Name)}</C>~s~.", false, true);
                             currentlySpectatingPlayer = player.Handle;
-                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} is spectating {player.Handle}");
-
                         }
                         else
                         {
@@ -1007,7 +997,6 @@ namespace vMenuClient
                             NetworkSetInSpectatorMode(false, 0); // disable spectating.
                             DoScreenFadeIn(500);
                             Notify.Success("Stopped spectating.", false, true);
-                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} stopped spectating {GetSafePlayerName(player.Name)}");
                             currentlySpectatingPlayer = -1;
                         }
                     }
@@ -1026,7 +1015,6 @@ namespace vMenuClient
 
                             DoScreenFadeIn(500);
                             Notify.Success($"You are now spectating ~g~<C>{GetSafePlayerName(player.Name)}</C>~s~.", false, true);
-                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} is spectating {GetSafePlayerName(player.Name)}");
                             currentlySpectatingPlayer = player.Handle;
                         }
                     }
@@ -1120,7 +1108,7 @@ namespace vMenuClient
         /// <param name="vehicleName">Vehicle model name. If "custom" the user will be asked to enter a model name.</param>
         /// <param name="spawnInside">Warp the player inside the vehicle after spawning.</param>
         /// <param name="replacePrevious">Replace the previous vehicle of the player.</param>
-        public static async void SpawnVehicle(string vehicleName = "custom", bool spawnInside = false, bool replacePrevious = false)
+        public static async Task<int> SpawnVehicle(string vehicleName = "custom", bool spawnInside = false, bool replacePrevious = false)
         {
             if (vehicleName == "custom")
             {
@@ -1131,23 +1119,18 @@ namespace vMenuClient
                 {
                     // Convert it into a model hash.
                     uint model = (uint)GetHashKey(result);
-                    SpawnVehicle(vehicleHash: model, spawnInside: spawnInside, replacePrevious: replacePrevious, skipLoad: false, vehicleInfo: new VehicleInfo(),
+                    return await SpawnVehicle(vehicleHash: model, spawnInside: spawnInside, replacePrevious: replacePrevious, skipLoad: false, vehicleInfo: new VehicleInfo(),
                         saveName: null);
-                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned {result.ToUpper()} ");
-
                 }
                 // Result was invalid.
                 else
                 {
                     Notify.Error(CommonErrors.InvalidInput);
+                    return 0;
                 }
             }
-            // Spawn the specified vehicle.
-            else
-            {
-                SpawnVehicle(vehicleHash: (uint)GetHashKey(vehicleName), spawnInside: spawnInside, replacePrevious: replacePrevious, skipLoad: false,
+            return await SpawnVehicle(vehicleHash: (uint)GetHashKey(vehicleName), spawnInside: spawnInside, replacePrevious: replacePrevious, skipLoad: false,
                     vehicleInfo: new VehicleInfo(), saveName: null);
-            }
         }
         #endregion
 
@@ -1161,7 +1144,7 @@ namespace vMenuClient
         /// <param name="skipLoad">Does not attempt to load the vehicle, but will spawn it right a way.</param>
         /// <param name="vehicleInfo">All information needed for a saved vehicle to re-apply all mods.</param>
         /// <param name="saveName">Used to get/set info about the saved vehicle data.</param>
-        public static async void SpawnVehicle(uint vehicleHash, bool spawnInside, bool replacePrevious, bool skipLoad, VehicleInfo vehicleInfo, string saveName = null)
+        public static async Task<int> SpawnVehicle(uint vehicleHash, bool spawnInside, bool replacePrevious, bool skipLoad, VehicleInfo vehicleInfo, string saveName = null, float x = 0f, float y = 0f, float z = 0f, float heading = -1f)
         {
             float speed = 0f;
             float rpm = 0f;
@@ -1172,13 +1155,11 @@ namespace vMenuClient
                 rpm = tmpOldVehicle.CurrentRPM;
             }
 
-
-            //var vehClass = GetVehicleClassFromName(vehicleHash);
             int modelClass = GetVehicleClassFromName(vehicleHash);
             if (!VehicleSpawner.allowedCategories[modelClass])
             {
                 Notify.Alert("You are not allowed to spawn this vehicle, because it belongs to a category which is restricted by the server owner.");
-                return;
+                return 0;
             }
 
             if (!skipLoad)
@@ -1188,15 +1169,21 @@ namespace vMenuClient
                 {
                     // Vehicle model is invalid.
                     Notify.Error(CommonErrors.InvalidModel);
-                    return;
+                    return 0;
                 }
             }
 
             Log("Spawning of vehicle is NOT cancelled, if this model is invalid then there's something wrong.");
 
             // Get the heading & position for where the vehicle should be spawned.
-            Vector3 pos = (spawnInside) ? GetEntityCoords(Game.PlayerPed.Handle, true) : GetOffsetFromEntityInWorldCoords(Game.PlayerPed.Handle, 0f, 8f, 0f);
-            float heading = GetEntityHeading(Game.PlayerPed.Handle) + (spawnInside ? 0f : 90f);
+            Vector3 pos = new Vector3(x, y, z);
+            if (pos.IsZero)
+            {
+                pos = (spawnInside) ? GetEntityCoords(Game.PlayerPed.Handle, true) : GetOffsetFromEntityInWorldCoords(Game.PlayerPed.Handle, 0f, 8f, 0f);
+                pos += new Vector3(0f, 0f, 1f);
+            }
+
+            heading = heading == -1 ? GetEntityHeading(Game.PlayerPed.Handle) + (spawnInside ? 0f : 90f) : heading;
 
             // If the previous vehicle exists...
             if (_previousVehicle != null)
@@ -1218,11 +1205,7 @@ namespace vMenuClient
                     {
                         if (!vMenuShared.ConfigManager.GetSettingsBool(vMenuShared.ConfigManager.Setting.vmenu_keep_spawned_vehicles_persistent))
                         {
-                            // Set the vehicle to be no longer needed. This will make the game engine decide when it should be removed (when all players get too far away).
                             SetEntityAsMissionEntity(_previousVehicle.Handle, false, false);
-                            //_previousVehicle.IsPersistent = false;
-                            //_previousVehicle.PreviouslyOwnedByPlayer = false;
-                            //_previousVehicle.MarkAsNoLongerNeeded();
                         }
                     }
                     _previousVehicle = null;
@@ -1231,7 +1214,7 @@ namespace vMenuClient
 
             if (Game.PlayerPed.IsInVehicle() && (replacePrevious || !IsAllowed(Permission.VSDisableReplacePrevious)))
             {
-                if (GetVehicle().Driver == Game.PlayerPed)// && IsVehiclePreviouslyOwnedByPlayer(GetVehicle()))
+                if (GetVehicle().Driver == Game.PlayerPed)
                 {
                     var tmpveh = GetVehicle();
                     SetVehicleHasBeenOwnedByPlayer(tmpveh.Handle, false);
@@ -1252,11 +1235,11 @@ namespace vMenuClient
             if (_previousVehicle != null)
                 _previousVehicle.PreviouslyOwnedByPlayer = false;
 
-            if (Game.PlayerPed.IsInVehicle())
-                pos = GetOffsetFromEntityInWorldCoords(Game.PlayerPed.Handle, 0, 8f, 0.1f);
+            if (Game.PlayerPed.IsInVehicle() && x == 0f && y == 0f && z == 0f)
+                pos = GetOffsetFromEntityInWorldCoords(Game.PlayerPed.Handle, 0, 8f, 0.1f) + new Vector3(0f, 0f, 1f);
 
             // Create the new vehicle and remove the need to hotwire the car.
-            Vehicle vehicle = new Vehicle(CreateVehicle(vehicleHash, pos.X, pos.Y, pos.Z + 1f, heading, true, false))
+            Vehicle vehicle = new Vehicle(CreateVehicle(vehicleHash, pos.X, pos.Y, pos.Z, heading, true, false))
             {
                 NeedsToBeHotwired = false,
                 PreviouslyOwnedByPlayer = true,
@@ -1306,12 +1289,14 @@ namespace vMenuClient
             vehicle.CurrentRPM = rpm;
 
             await Delay(1); // Mandatory delay - without it radio station will not set properly
-            
+
             // Set the radio station to default set by player in Vehicle Menu
             vehicle.RadioStation = (RadioStation)UserDefaults.VehicleDefaultRadio;
 
             // Discard the model.
             SetModelAsNoLongerNeeded(vehicleHash);
+
+            return vehicle.Handle;
         }
 
         /// <summary>
@@ -1731,8 +1716,6 @@ namespace vMenuClient
                     {
                         // Set the license plate.
                         SetVehicleNumberPlateText(veh.Handle, text);
-                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} set their license plate to {text.ToUpper()}");
-
                     }
                     // No valid text was given.
                     else
@@ -1922,7 +1905,7 @@ namespace vMenuClient
         /// <param name="newWeather">The new weather type.</param>
         /// <param name="blackout">Manual blackout mode enabled/disabled.</param>
         /// <param name="dynamicChanges">Dynamic weather changes enabled/disabled.</param>
-        public static void UpdateServerWeather(string newWeather, bool blackout, bool dynamicChanges) => TriggerServerEvent("vMenu:UpdateServerWeather", newWeather, blackout, dynamicChanges);
+        public static void UpdateServerWeather(string newWeather, bool blackout, bool dynamicChanges, bool isSnowEnabled) => TriggerServerEvent("vMenu:UpdateServerWeather", newWeather, blackout, dynamicChanges, isSnowEnabled);
 
         /// <summary>
         /// Modify the clouds for everyone. If removeClouds is true, then remove all clouds. If it's false, then randomize the clouds.

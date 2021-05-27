@@ -24,12 +24,11 @@ namespace vMenuClient
             menu = new Menu("vMenu", "About vMenu");
 
             // Create menu items.
-            MenuItem version = new MenuItem("vMenu Version", $"EmergencyOzz is using vMenu ~b~~h~{MainMenu.Version}~h~~s~")
+            MenuItem version = new MenuItem("vMenu Version", $"This server is using vMenu ~b~~h~{MainMenu.Version}~h~~s~.")
             {
                 Label = $"~h~{MainMenu.Version}~h~"
             };
-            MenuItem credits = new MenuItem("About vMenu / Credits", "vMenu is made by ~b~Vespura~s~ and customized by ~b~DamonOnYT~s~.");
-            MenuItem emergencyozz = new MenuItem("EmergencyOzz", "vMenu customised for EmergencyOzz by ~b~DamonOnYT~s~ at ~b~ https://damonon.yt~s~");
+            MenuItem credits = new MenuItem("About vMenu / Credits", "vMenu is made by ~b~Vespura~s~. For more info, checkout ~b~www.vespura.com/vmenu~s~. Thank you to: Deltanic, Brigliar, IllusiveTea, Shayan Doust and zr0iq for your contributions.");
 
             string serverInfoMessage = vMenuShared.ConfigManager.GetSettingsString(vMenuShared.ConfigManager.Setting.vmenu_server_info_message);
             if (!string.IsNullOrEmpty(serverInfoMessage))
@@ -40,7 +39,7 @@ namespace vMenuClient
                 {
                     serverInfo.Label = $"{siteUrl}";
                 }
-                menu.AddMenuItem(emergencyozz);
+                menu.AddMenuItem(serverInfo);
             }
             menu.AddMenuItem(version);
             menu.AddMenuItem(credits);
