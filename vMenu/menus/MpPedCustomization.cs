@@ -762,6 +762,32 @@ namespace vMenuClient
                 Label = "→→→"
             };
 
+            // MENU FILTER (Saved Charaters)
+
+            async void FilterMenu(Menu m, Control c)
+            {
+                string input = await GetUserInput("Filter by MP Ped name");
+                if (!string.IsNullOrEmpty(input))
+                {
+                    m.FilterMenuItems((mb) => mb.Label.ToLower().Contains(input.ToLower()) || mb.Text.ToLower().Contains(input.ToLower()));
+                    Subtitle.Custom("Filter applied.");
+                }
+                else
+                {
+                    m.ResetFilter();
+                    Subtitle.Custom("Filter cleared.");
+                }
+            }
+
+            void ResetMenuFilter(Menu m)
+            {
+                m.ResetFilter();
+            }
+
+            savedCharactersMenu.OnMenuClose += ResetMenuFilter;
+            savedCharactersMenu.InstructionalButtons.Add(Control.Jump, "Filter MP Ped List");
+            savedCharactersMenu.ButtonPressHandlers.Add(new Menu.ButtonPressHandler(Control.Jump, Menu.ControlPressCheckType.JUST_RELEASED, new Action<Menu, Control>(FilterMenu), true));
+
             MenuController.AddMenu(createCharacterMenu);
             MenuController.AddMenu(savedCharactersMenu);
             MenuController.AddMenu(inheritanceMenu);

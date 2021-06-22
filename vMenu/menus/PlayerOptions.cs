@@ -332,13 +332,13 @@ namespace vMenuClient
                 {
                     PlayerGodMode = _checked;
                     TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} toggled godmode {PlayerGodMode}");
-
                 }
                 // Invisibility toggled.
                 else if (item == invisibleCheckbox)
                 {
                     PlayerInvisible = _checked;
                     SetEntityVisible(Game.PlayerPed.Handle, !PlayerInvisible, false);
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(_checked ? "enabled" : "disabled")} player invisibility");
                 }
                 // Unlimited Stamina toggled.
                 else if (item == unlimitedStaminaCheckbox)
@@ -351,22 +351,26 @@ namespace vMenuClient
                 {
                     PlayerFastRun = _checked;
                     SetRunSprintMultiplierForPlayer(Game.Player.Handle, (_checked ? 1.49f : 1f));
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(_checked ? "enabled" : "disabled")} fast run");
                 }
                 // Fast swim toggled.
                 else if (item == fastSwimCheckbox)
                 {
                     PlayerFastSwim = _checked;
                     SetSwimMultiplierForPlayer(Game.Player.Handle, (_checked ? 1.49f : 1f));
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(_checked ? "enabled" : "disabled")} fast swim");
                 }
                 // Super jump toggled.
                 else if (item == superJumpCheckbox)
                 {
                     PlayerSuperJump = _checked;
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(_checked ? "enabled" : "disabled")} super jump");
                 }
                 // No ragdoll toggled.
                 else if (item == noRagdollCheckbox)
                 {
                     PlayerNoRagdoll = _checked;
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(_checked ? "enabled" : "disabled")} no ragdoll");
                 }
                 // Never wanted toggled.
                 else if (item == neverWantedCheckbox)
@@ -448,7 +452,6 @@ namespace vMenuClient
                     Game.PlayerPed.Health = Game.PlayerPed.MaxHealth;
                     Notify.Success("Player healed.");
                     TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} healed themself");
-
                 }
                 else if (item == cleanPlayerBtn)
                 {

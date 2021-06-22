@@ -464,6 +464,8 @@ namespace vMenuClient
                 {
                     var pos = Game.PlayerPed.Position;
                     BaseScript.TriggerServerEvent("vMenu:ClearArea", pos.X, pos.Y, pos.Z);
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} cleared area");
+
                 }
             };
 

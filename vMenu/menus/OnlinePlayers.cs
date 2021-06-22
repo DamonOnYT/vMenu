@@ -24,6 +24,7 @@ namespace vMenuClient
         IPlayer currentPlayer = new NativePlayer(Game.Player);
 
 
+
         /// <summary>
         /// Creates the menu.
         /// </summary>
@@ -32,6 +33,32 @@ namespace vMenuClient
             // Create the menu.
             menu = new Menu(Game.Player.Name, "Online Players") { };
             menu.CounterPreText = "Players: ";
+
+
+            // MENU FILTER
+            async void FilterMenu(Menu m, Control c)
+            {
+                string input = await GetUserInput("Filter by player name");
+                if (!string.IsNullOrEmpty(input))
+                {
+                    m.FilterMenuItems((mb) => mb.Label.ToLower().Contains(input.ToLower()) || mb.Text.ToLower().Contains(input.ToLower()));
+                    Subtitle.Custom("Filter applied.");
+                }
+                else
+                {
+                    m.ResetFilter();
+                    Subtitle.Custom("Filter cleared.");
+                }
+            }
+
+            void ResetMenuFilter(Menu m)
+            {
+                m.ResetFilter();
+            }
+
+            menu.OnMenuClose += ResetMenuFilter;
+            menu.InstructionalButtons.Add(Control.Jump, "Filter Player List");
+            menu.ButtonPressHandlers.Add(new Menu.ButtonPressHandler(Control.Jump, Menu.ControlPressCheckType.JUST_RELEASED, new Action<Menu, Control>(FilterMenu), true));
 
             MenuController.AddSubmenu(menu, playerMenu);
 
@@ -118,7 +145,6 @@ namespace vMenuClient
                             TriggerServerEvent("vMenu:SendMessageToPlayer", currentPlayer.ServerId, message);
                             PrivateMessage(currentPlayer.ServerId.ToString(), message, true);
                             TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} PM'd {GetSafePlayerName(currentPlayer.Name)}: {message}");
-
                         }
                     }
                     else
@@ -201,7 +227,6 @@ namespace vMenuClient
                             PlayersWaypointList.Add(currentPlayer.Handle);
                             Notify.Custom($"~g~GPS route to ~s~<C>{GetSafePlayerName(currentPlayer.Name)}</C>~g~ is now active, press the ~s~Toggle GPS Route~g~ button again to disable the route.");
                             TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Toggled GPS to {GetSafePlayerName(currentPlayer.Name)}");
-
                         }
                         else
                         {

@@ -142,6 +142,8 @@ namespace vMenuClient
                 {
                     Notify.Custom($"Snow effects will now be forced {(_checked ? "~g~enabled" : "~r~disabled")}~s~.");
                     UpdateServerWeather(EventManager.GetServerWeather, EventManager.IsBlackoutEnabled, EventManager.DynamicWeatherEnabled, _checked);
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} {(_checked ? "enabled" : "disabled")} snow");
+
                 }
             };
         }

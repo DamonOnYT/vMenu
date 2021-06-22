@@ -446,6 +446,7 @@ namespace vMenuClient
                             if (HasPedGotWeapon(Game.PlayerPed.Handle, hash, false))
                             {
                                 RemoveWeaponFromPed(Game.PlayerPed.Handle, hash);
+                                TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} removed their {info.Name}");
                                 Subtitle.Custom("Weapon removed.");
                             }
                             else
@@ -453,6 +454,8 @@ namespace vMenuClient
                                 var ammo = 255;
                                 GetMaxAmmo(Game.PlayerPed.Handle, hash, ref ammo);
                                 GiveWeaponToPed(Game.PlayerPed.Handle, hash, ammo, false, true);
+                                TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} gave themself a {info.Name}");
+
                                 Subtitle.Custom("Weapon added.");
                             }
                         }
@@ -658,6 +661,8 @@ namespace vMenuClient
                 else if (item == removeAllWeapons)
                 {
                     ped.Weapons.RemoveAll();
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} removed all weapons");
+
                 }
                 else if (item == setAmmo)
                 {
