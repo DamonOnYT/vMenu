@@ -116,8 +116,7 @@ namespace vMenuClient
                                 categoryMenu.OnItemSelect += (sender, item, index) =>
                                 {
                                     SpawnVehicle(item.ItemData.ToString(), SpawnInVehicle, ReplaceVehicle);
-                                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned {item.ItemData.ToString()}");
-
+                                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned [Addon] {item.ItemData.ToString()}"); 
                                 };
                             }
                             else
@@ -397,11 +396,22 @@ namespace vMenuClient
                 vehicleClassMenu.ShowVehicleStatsPanel = true;
 
                 // Handle button presses
-                vehicleClassMenu.OnItemSelect += (sender2, item2, index2) =>
+                vehicleClassMenu.OnItemSelect += async (sender2, item2, index2) =>
                 {
-                    SpawnVehicle(VehicleData.Vehicles.VehicleClasses[className][index2], SpawnInVehicle, ReplaceVehicle);
-                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned {VehicleData.Vehicles.VehicleClasses[className][index2]}");
-
+                    if (VehicleData.Vehicles.VehicleClasses[className][index2] == "TUG" ||
+                     VehicleData.Vehicles.VehicleClasses[className][index2] == "CARGOPLANE" ||
+                     VehicleData.Vehicles.VehicleClasses[className][index2] == "BLIMP" ||
+                     VehicleData.Vehicles.VehicleClasses[className][index2] == "BLIMP2" ||
+                     VehicleData.Vehicles.VehicleClasses[className][index2] == "BLIMP3")
+                    {
+                        Notify.Error("You cannot spawn this vehicle, troll.");
+                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} ATTEMPTED TO SPAWN {VehicleData.Vehicles.VehicleClasses[className][index2]}");
+                    }
+                    else
+                    {
+                        await SpawnVehicle(VehicleData.Vehicles.VehicleClasses[className][index2], SpawnInVehicle, ReplaceVehicle);
+                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned [Normal] {VehicleData.Vehicles.VehicleClasses[className][index2]}");
+                    }
                 };
 
                 void HandleStatsPanel(Menu openedMenu, MenuItem currentItem)

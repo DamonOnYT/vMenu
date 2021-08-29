@@ -113,16 +113,28 @@ namespace vMenuClient
             {
                 if (item == spawnVehicle)
                 {
-                    if (MainMenu.VehicleSpawnerMenu != null)
+                    if (GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model) == "TUG" ||
+                     GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model) == "CARGOPLANE" ||
+                     GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model) == "BLIMP" ||
+                     GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model) == "BLIMP2" ||
+                     GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model) == "BLIMP3")
                     {
-                        SpawnVehicle(currentlySelectedVehicle.Value.model, MainMenu.VehicleSpawnerMenu.SpawnInVehicle, MainMenu.VehicleSpawnerMenu.ReplaceVehicle, false, vehicleInfo: currentlySelectedVehicle.Value, saveName: currentlySelectedVehicle.Key.Substring(4));
-                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned {GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model)}");
-
+                        Notify.Error("You cannot spawn this vehicle, troll.");
+                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} ATTEMPTED TO SPAWN {GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model)}");
                     }
                     else
                     {
-                        SpawnVehicle(currentlySelectedVehicle.Value.model, true, true, false, vehicleInfo: currentlySelectedVehicle.Value, saveName: currentlySelectedVehicle.Key.Substring(4));
-                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned {GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model)}");
+                        if (MainMenu.VehicleSpawnerMenu != null)
+                        {
+                            await SpawnVehicle(currentlySelectedVehicle.Value.model, MainMenu.VehicleSpawnerMenu.SpawnInVehicle, MainMenu.VehicleSpawnerMenu.ReplaceVehicle, false, vehicleInfo: currentlySelectedVehicle.Value, saveName: currentlySelectedVehicle.Key.Substring(4));
+                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned [Saved] {GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model)}");
+
+                        }
+                        else
+                        {
+                            SpawnVehicle(currentlySelectedVehicle.Value.model, true, true, false, vehicleInfo: currentlySelectedVehicle.Value, saveName: currentlySelectedVehicle.Key.Substring(4));
+                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned [Saved] {GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model)}");
+                        }
                     }
                 }
                 else if (item == renameVehicle)
