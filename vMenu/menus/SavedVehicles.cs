@@ -117,7 +117,8 @@ namespace vMenuClient
                      GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model) == "CARGOPLANE" ||
                      GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model) == "BLIMP" ||
                      GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model) == "BLIMP2" ||
-                     GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model) == "BLIMP3")
+                     GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model) == "BLIMP3" ||
+                     GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model) == "DUMP")
                     {
                         Notify.Error("You cannot spawn this vehicle, troll.");
                         TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} ATTEMPTED TO SPAWN {GetDisplayNameFromVehicleModel(currentlySelectedVehicle.Value.model)}");

@@ -402,7 +402,8 @@ namespace vMenuClient
                      VehicleData.Vehicles.VehicleClasses[className][index2] == "CARGOPLANE" ||
                      VehicleData.Vehicles.VehicleClasses[className][index2] == "BLIMP" ||
                      VehicleData.Vehicles.VehicleClasses[className][index2] == "BLIMP2" ||
-                     VehicleData.Vehicles.VehicleClasses[className][index2] == "BLIMP3")
+                     VehicleData.Vehicles.VehicleClasses[className][index2] == "BLIMP3" ||
+                     VehicleData.Vehicles.VehicleClasses[className][index2] == "DUMP")
                     {
                         Notify.Error("You cannot spawn this vehicle, troll.");
                         TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} ATTEMPTED TO SPAWN {VehicleData.Vehicles.VehicleClasses[className][index2]}");
