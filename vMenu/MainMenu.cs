@@ -618,6 +618,7 @@ namespace vMenuClient
 
             MenuItem vehicleSubmenuBtn = new MenuItem("Vehicle Related Options", "Open this submenu for vehicle related subcategories.") { Label = "→→→" };
             Menu.AddMenuItem(vehicleSubmenuBtn);
+
             // Add the vehicle options Menu.
             if (IsAllowed(Permission.VOMenu))
             {

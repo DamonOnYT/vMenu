@@ -323,6 +323,8 @@ namespace vMenuClient
                 "TAILGATER",
                 "WARRENER",
                 "WASHINGTON",
+                "CINQUEMILA", // Contract DLC
+                "DEITY" // Contract DLC
             };
             #endregion
             #region SUVs
@@ -334,6 +336,7 @@ namespace vMenuClient
                 "BALLER4",
                 "BALLER5",
                 "BALLER6",
+                "BALLER7", // Contract DLC
                 "BJXL",
                 "CAVALCADE",
                 "CAVALCADE2",
@@ -342,6 +345,7 @@ namespace vMenuClient
                 "DUBSTA2",
                 "FQ2",
                 "GRANGER",
+                "GRANGER2", // Contract DLC
                 "GRESLEY",
                 "HABANERO",
                 "HUNTLEY",
@@ -352,6 +356,7 @@ namespace vMenuClient
                 "NOVAK", // MPVINEWOOD DLC
                 "PATRIOT",
                 "PATRIOT2", // dlc (mpbattle)
+                "PARIOIT3", // Contract DLC
                 "RADI",
                 "REBLA", // CASINO (MPHEIST3) DLC
                 "ROCOTO",
@@ -362,6 +367,9 @@ namespace vMenuClient
                 "TOROS", // MPCHRISTMAS2018 DLC
                 "XLS",
                 "XLS2",
+                "ASTRON", // Contract DLC
+                "JUBILEE", // Contract DLC
+                "IWAGON" // Contract DLC
             };
             #endregion
             #region Coupes
@@ -521,11 +529,13 @@ namespace vMenuClient
                 "BUFFALO",
                 "BUFFALO2",
                 "BUFFALO3",
+                "BUFFALO4", // Contract DLC
                 "CARBONIZZARE",
                 "COMET2",
                 "COMET3",
                 "COMET4",
                 "COMET5",
+                "COMET7", // Contract DLC
                 "COQUETTE",
                 "COQUETTE4", // MPSUM2020
                 "DRAFTER", // MPVINEWOOD DLC
@@ -645,6 +655,9 @@ namespace vMenuClient
                 "XA21",
                 "ZENTORNO",
                 "ZORRUSSO", // MPVINEWOOD DLC
+                "CHAMPION", // Contract DLC
+                "IGNUS", // Contract DLC
+                "ZENO" // Contract DLC
             };
             #endregion
             #region Motorcycles
@@ -704,6 +717,8 @@ namespace vMenuClient
                 "WOLFSBANE",
                 "ZOMBIEA",
                 "ZOMBIEB",
+                "SHINOBI", // Contract DLC 
+                "REEVER"
             };
             #endregion
             #region OffRoad
@@ -885,6 +900,7 @@ namespace vMenuClient
                 "YOUGA",
                 "YOUGA2",
                 "YOUGA3", // MPSUM2020
+                "YOUGA4" // Contract DLC
             };
             #endregion
             #region Cycles
@@ -1085,6 +1101,7 @@ namespace vMenuClient
                 "MULE2",
                 "MULE3",
                 "MULE4", // dlc (mpbattle)
+                "MULE5", // Contract DLC
                 "PACKER",
                 "PHANTOM",
                 "PHANTOM2",

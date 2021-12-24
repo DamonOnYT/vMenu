@@ -28,6 +28,14 @@ namespace vMenuClient
         public Menu VehicleColorsMenu { get; private set; }
         public Menu DeleteConfirmMenu { get; private set; }
         public Menu VehicleUnderglowMenu { get; private set; }
+        public Menu PaintMenu { get; private set; }
+        public PaintMenu Paint { get; private set; }
+        public Menu NeonMenu { get; private set; }
+        public NeonMenu Neon { get; private set; }
+
+
+
+
 
         // Public variables (getters only), return the private variables.
         public bool VehicleGodMode { get; private set; } = UserDefaults.VehicleGodMode;
@@ -55,6 +63,7 @@ namespace vMenuClient
 
         private Dictionary<MenuItem, int> vehicleExtras = new Dictionary<MenuItem, int>();
         #endregion
+
 
         #region CreateMenu()
         /// <summary>
@@ -210,6 +219,7 @@ namespace vMenuClient
             VehicleComponentsMenu = new Menu("Vehicle Extras", "Vehicle Extras/Components");
             VehicleLiveriesMenu = new Menu("Vehicle Liveries", "Vehicle Liveries");
             VehicleColorsMenu = new Menu("Vehicle Colors", "Vehicle Colors");
+
             DeleteConfirmMenu = new Menu("Confirm Action", "Delete Vehicle, Are You Sure?");
             VehicleUnderglowMenu = new Menu("Vehicle Neon Kits", "Vehicle Neon Underglow Options");
 
@@ -938,10 +948,25 @@ namespace vMenuClient
             #endregion
 
             #region Vehicle Colors Submenu Stuff
+
+
+            // Add Paint Menu
+            Paint = new PaintMenu();
+            Menu paintmenuu = Paint.GetMenu();
+            Menu paintColorsMenu = new Menu("Vehicle Colors", "RGB Paint Color");
+            MenuController.AddSubmenu(VehicleColorsMenu, paintColorsMenu);
+
+            MenuItem paintbtn = new MenuItem("[DEV] RGB Colors")
+            {
+                Label = "→→→"
+            };
+            VehicleColorsMenu.AddMenuItem(paintbtn);
+            MenuController.BindMenuItem(VehicleColorsMenu, paintmenuu, paintbtn);
+
+
             // primary menu
             Menu primaryColorsMenu = new Menu("Vehicle Colors", "Primary Colors");
             MenuController.AddSubmenu(VehicleColorsMenu, primaryColorsMenu);
-
             MenuItem primaryColorsBtn = new MenuItem("Primary Color") { Label = "→→→" };
             VehicleColorsMenu.AddMenuItem(primaryColorsBtn);
             MenuController.BindMenuItem(VehicleColorsMenu, primaryColorsMenu, primaryColorsBtn);
@@ -1535,6 +1560,25 @@ namespace vMenuClient
                 underglowColorsList.Add(GetLabelText($"CMOD_NEONCOL_{i}"));
             }
             MenuListItem underglowColor = new MenuListItem(GetLabelText("CMOD_NEON_1"), underglowColorsList, 0, "Select the color of the neon underglow.");
+
+
+
+
+            // Add Neon Menu
+            Neon = new NeonMenu();
+            Menu neonmenuu = Neon.GetMenu();
+            Menu neonColorsMenu = new Menu("Neon", "NeOn Color Shit?");
+            MenuController.AddSubmenu(VehicleUnderglowMenu, neonColorsMenu);
+
+            MenuItem neonbtn = new MenuItem("[DEV] Neon RGB")
+            {
+                Label = "→→→"
+            };
+            VehicleUnderglowMenu.AddMenuItem(neonbtn);
+            MenuController.BindMenuItem(VehicleUnderglowMenu, neonmenuu, neonbtn);
+
+
+
 
             VehicleUnderglowMenu.AddMenuItem(underglowFront);
             VehicleUnderglowMenu.AddMenuItem(underglowBack);
@@ -2209,4 +2253,5 @@ namespace vMenuClient
         }
         #endregion
     }
+
 }
