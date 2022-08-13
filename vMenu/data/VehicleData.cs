@@ -324,7 +324,8 @@ namespace vMenuClient
                 "WARRENER",
                 "WASHINGTON",
                 "CINQUEMILA", // Contract DLC
-                "DEITY" // Contract DLC
+                "DEITY", // Contract DLC
+                "RHINEHART", // Criminal Enterprises DLC
             };
             #endregion
             #region SUVs
@@ -389,6 +390,8 @@ namespace vMenuClient
                 "WINDSOR2",
                 "ZION",
                 "ZION2",
+                "KANJOSJ", // Criminal Enterprises DLC
+                "POSTLUDE", // Criminal Enterprises DLC
             };
             #endregion
             #region Muscle
@@ -465,6 +468,11 @@ namespace vMenuClient
                 "VOODOO2",
                 "YOSEMITE",
                 "YOSEMITE2", // CASINO (MPHEIST3) DLC
+                "RUINER4", // Criminal Enterprises DLC
+                "BRIOSO3", // Criminal Enterprises DLC
+                "VIGERO2", // Criminal Enterprises DLC
+                "GREENWOOD", // Criminal Enterprises DLC
+                "WEEVIL2", // Criminal Enterprises DLC
             };
             #endregion
             #region SportsClassics
@@ -602,6 +610,13 @@ namespace vMenuClient
                 "ZR380", // MPCHRISTMAS2018 DLC
                 "ZR3802", // MPCHRISTMAS2018 DLC
                 "ZR3803", // MPCHRISTMAS2018 DLC
+                "OMNIGSET", // Criminal Enterprises DLC
+                "SENTINEL4", // Criminal Enterprises DLC
+                "CORSITA", // Criminal Enterprises DLC
+                "TENF", // Criminal Enterprises DLC
+                "TENF2", // Criminal Enterprises DLC
+                "SM722", // Criminal Enterprises DLC
+
             };
             #endregion
             #region Super
@@ -657,7 +672,9 @@ namespace vMenuClient
                 "ZORRUSSO", // MPVINEWOOD DLC
                 "CHAMPION", // Contract DLC
                 "IGNUS", // Contract DLC
-                "ZENO" // Contract DLC
+                "ZENO", // Contract DLC
+                "TORERO2", // Criminal Enterprises DLC
+                "LM87", // Criminal Enterprises DLC
             };
             #endregion
             #region Motorcycles
@@ -783,6 +800,7 @@ namespace vMenuClient
                 "WINKY", // MPCAYOPERICO DLC
                 "YOSEMITE3", // MPSUM2020
                 "ZHABA", // CASINO (MPHEIST3) DLC
+                "DRAUGUR", // Criminal Enterprises DLC
             };
             #endregion
             #region Industrial
@@ -976,6 +994,7 @@ namespace vMenuClient
                 "VALKYRIE",
                 "VALKYRIE2",
                 "VOLATUS",
+                "CONDA", // Criminal Enterprises DLC
             };
             #endregion
             #region Planes
