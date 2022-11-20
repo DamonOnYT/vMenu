@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MenuAPI;
 using Newtonsoft.Json;
@@ -293,6 +294,7 @@ namespace vMenuClient
 
                 // Create a dictionary for the duplicate vehicle names (in this vehicle class).
                 var duplicateVehNames = new Dictionary<string, int>();
+                bool damonhasDelayCooldown = false;
 
                 #region Add vehicles per class
                 // Loop through all the vehicles in the vehicle class.
@@ -403,15 +405,28 @@ namespace vMenuClient
                      VehicleData.Vehicles.VehicleClasses[className][index2] == "BLIMP" ||
                      VehicleData.Vehicles.VehicleClasses[className][index2] == "BLIMP2" ||
                      VehicleData.Vehicles.VehicleClasses[className][index2] == "BLIMP3" ||
-                     VehicleData.Vehicles.VehicleClasses[className][index2] == "DUMP")
+                     VehicleData.Vehicles.VehicleClasses[className][index2] == "DUMP" ||
+                     VehicleData.Vehicles.VehicleClasses[className][index2] == "KOSATKA")
                     {
                         Notify.Error("You cannot spawn this vehicle, troll.");
-                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} ATTEMPTED TO SPAWN {VehicleData.Vehicles.VehicleClasses[className][index2]}");
+                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} ATTEMPTED TO SPAWN [Normal] {VehicleData.Vehicles.VehicleClasses[className][index2]} (Blacklisted)");
                     }
                     else
                     {
-                        await SpawnVehicle(VehicleData.Vehicles.VehicleClasses[className][index2], SpawnInVehicle, ReplaceVehicle);
-                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned [Normal] {VehicleData.Vehicles.VehicleClasses[className][index2]}");
+                        if (damonhasDelayCooldown == true) {
+                            Notify.Error("Woah, Slow down there. You may only spawn 1 car per second");
+                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Tried to spawn [Normal] {VehicleData.Vehicles.VehicleClasses[className][index2]} (Stopped by cooldown)");
+
+                        }
+                        else
+                        {
+                            await SpawnVehicle(VehicleData.Vehicles.VehicleClasses[className][index2], SpawnInVehicle, ReplaceVehicle);
+                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Spawned [Normal] {VehicleData.Vehicles.VehicleClasses[className][index2]}");
+                            damonhasDelayCooldown = true;
+                            await Delay(1000);
+                            damonhasDelayCooldown = false;
+                        }
+
                     }
                 };
 

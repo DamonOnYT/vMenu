@@ -1339,7 +1339,7 @@ namespace vMenuClient
 
                 SetVehicleWindowTint(vehicle.Handle, vehicleInfo.windowTint);
 
-                vehicle.CanTiresBurst = !vehicleInfo.bulletProofTires;
+               // vehicle.CanTiresBurst = !vehicleInfo.bulletProofTires;
 
                 SetVehicleEnveffScale(vehicle.Handle, vehicleInfo.enveffScale);
 

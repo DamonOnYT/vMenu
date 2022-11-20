@@ -187,7 +187,7 @@ namespace vMenuServer
             string prefix = "[vMenu]";
             DateTime localDate = DateTime.Now;
 
-            Console.WriteLine($"[{localDate.ToString()}] {prefix} {data.ToString()}");
+            Console.WriteLine($"[{localDate.ToString()} UTC] {prefix} {data.ToString()}");
 
             String log = data.ToString();
             if (log.Contains("ATTEMPTED TO SPAWN")) {
