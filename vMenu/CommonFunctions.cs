@@ -1721,10 +1721,14 @@ namespace vMenuClient
                         blacklistedWords.Add("nigger");
                         blacklistedWords.Add("faggot");
                         blacklistedWords.Add("coon");
+                        blacklistedWords.Add("fag");
+                        blacklistedWords.Add("nig");
+                        blacklistedWords.Add("nigga");
+                        blacklistedWords.Add("poofta");
                         
                         // create a for loop to check if text contains a blacklisted word
                         if (blacklistedWords.Contains(text)) {
-                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} has set their plate to a blacklisted word.");
+                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} HAS SET THEIR PLATE TO A BLACKLISTED WORD");
                         }
                     }
                     // No valid text was given.
