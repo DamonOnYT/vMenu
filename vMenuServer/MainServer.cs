@@ -182,7 +182,7 @@ namespace vMenuServer
         /// </summary>
         /// <param name="data"></param>
         [EventHandler("vMenu:DamonLog")]
-        private void DamonLog(dynamic data)
+        private void DamonLog(dynamic data, bool sendStaffChat)
         {
             string prefix = "[vMenu]";
             DateTime localDate = DateTime.Now;
@@ -190,12 +190,8 @@ namespace vMenuServer
             Console.WriteLine($"[{localDate.ToString()} UTC] {prefix} {data.ToString()}");
 
             String log = data.ToString();
-            if (log.Contains("ATTEMPTED TO SPAWN")) {
 
-                TriggerClientEvent("Permissions:CheckPermsClient", $"^7[^1StaffChat^7] ^5(^*^3SERVER^r^5) ^*^9 {log}");
-            }
-
-            if (log.Contains("BLACKLISTED WORD")) {
+            if (sendStaffChat == true) {
                 TriggerClientEvent("Permissions:CheckPermsClient", $"^7[^1StaffChat^7] ^5(^*^3SERVER^r^5) ^*^9 {log}");
             }
         }
