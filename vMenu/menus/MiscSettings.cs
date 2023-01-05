@@ -264,6 +264,7 @@ namespace vMenuClient
                     if (item == tptowp)
                     {
                         TeleportToWp();
+                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} teleported to waypoint.");
                     }
                     else if (item == tpToCoord)
                     {
@@ -328,6 +329,7 @@ namespace vMenuClient
                         }
 
                         await TeleportToCoords(new Vector3(posX, posY, posZ), true);
+                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} teleported to coordinates.");
                     }
                     else if (item == saveLocationBtn)
                     {

@@ -471,6 +471,7 @@ namespace vMenuClient
                 else if (item == suicidePlayerBtn)
                 {
                     CommitSuicide();
+                    TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} committed suicide.");
                 }
             };
             #endregion

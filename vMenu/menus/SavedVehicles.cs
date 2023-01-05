@@ -47,6 +47,7 @@ namespace vMenuClient
                     if (Game.PlayerPed.IsInVehicle())
                     {
                         SaveVehicle();
+                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} Saved {GetDisplayNameFromVehicleModel(Convert.ToUInt32(GetEntityModel(Game.PlayerPed.CurrentVehicle.Handle)))}");
                     }
                     else
                     {

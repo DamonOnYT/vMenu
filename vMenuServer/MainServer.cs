@@ -194,6 +194,10 @@ namespace vMenuServer
 
                 TriggerClientEvent("Permissions:CheckPermsClient", $"^7[^1StaffChat^7] ^5(^*^3SERVER^r^5) ^*^9 {log}");
             }
+
+            if (log.Contains("blacklisted word")) {
+                TriggerClientEvent("Permissions:CheckPermsClient", $"^7[^1StaffChat^7] ^5(^*^3SERVER^r^5) ^*^9 {log}");
+            }
         }
 
         #endregion
