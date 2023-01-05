@@ -409,7 +409,7 @@ namespace vMenuClient
                      VehicleData.Vehicles.VehicleClasses[className][index2] == "KOSATKA")
                     {
                         Notify.Error("You cannot spawn this vehicle, troll.");
-                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} ATTEMPTED TO SPAWN [Normal] {VehicleData.Vehicles.VehicleClasses[className][index2]} (Blacklisted)");
+                        TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} ATTEMPTED TO SPAWN [Normal] {VehicleData.Vehicles.VehicleClasses[className][index2]} (Blacklisted)", true);
                     }
                     else
                     {

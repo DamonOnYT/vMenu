@@ -1716,6 +1716,20 @@ namespace vMenuClient
                     {
                         // Set the license plate.
                         SetVehicleNumberPlateText(veh.Handle, text);
+                        // Create a list of blacklisted words
+                        List<string> blacklistedWords = new List<string>();
+                        blacklistedWords.Add("nigger");
+                        blacklistedWords.Add("faggot");
+                        blacklistedWords.Add("coon");
+                        blacklistedWords.Add("fag");
+                        blacklistedWords.Add("nig");
+                        blacklistedWords.Add("nigga");
+                        blacklistedWords.Add("poofta");
+                        
+                        // create a for loop to check if text contains a blacklisted word
+                        if (blacklistedWords.Contains(text)) {
+                            TriggerServerEvent("vMenu:DamonLog", $"{Game.Player.Name} HAS SET THEIR PLATE TO A BLACKLISTED WORD", true);
+                        }
                     }
                     // No valid text was given.
                     else
